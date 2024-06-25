@@ -1,0 +1,96 @@
+---
+title: Introduction
+format:
+  html
+bibliography: references.bib 
+execute: 
+    enabled: true
+filters: 
+  - pyodide
+---
+
+## **Formative assessment for APP: Research:Education nexus**
+<hr>
+
+### WebAssembly for Healthcare Research
+
+<div class="justify-text">
+WebAssembly has been described as a transformative technology, with expansive reach [@sletten2021]. Here, it is proposed as a method for deploying simulation models directly to 
+NHS users, with the aim of supporting **healthcare** operational decision-making using discrete event simulation. The aim is to allow simulation models, as complex analytic tools, to run directly in the user's browser without the need to install any components on the local machine. This makes models more accessible and user-friendly, and ensures that all computations are performed locally enhances data security by keeping sensitive healthcare information within the user's own browser environment (Figure 1). This will be explored in the section "What is WebAssembly?".
+
+```{mermaid}
+flowchart LR
+  A[Healthcare Decision-support requirement] --> B{WebAssembly}
+  B --> |Runs locally| C(Simulation Model)
+  B --> |Accessed locally| D(Sensitive Data)
+```
+
+*Figure 1: Simulation accessibility for healthcare*
+
+<hr style="border: none; border-top: 2px solid #333; margin: 20px 0;">
+
+### WebAssembly for Simulation Education
+
+This project explores a further potential use for WebAssembly - its applicability to **education**. Specifically, it can improve accessibility of models for students. This can help students to learn about simulation modelling as a method of supporting operational, strategic, and supply chain resourcing, planning, and configuring. WebAssembly enables the model to run in a web browser, so students can access simulations from any device. This ensures that all students, regardless of their hardware, technical expertise, and geographical location, have equal access to learning resources (Figure 2). This is explored in the section "Simulation for education".
+
+```{mermaid}
+flowchart LR
+  A[Student learning about simulation] --> B{WebAssembly}
+  B --> |Runs on any machine| C(Simulation Model)
+  B --> |Runs in any location| D(Simulation Model)
+```
+
+*Figure 2: Simulation accessibility for students*
+
+### Some Simple Examples of WebAssembly
+
+:::: {#special .sidebar}
+::: {.callout-tip title="What is WebAssembly doing?" collapse=true}  
+This webpage is built using [Quarto](https://quarto.org/). Quarto is a publishing system that can generate static sites, making it a useful way of documenting code, analysis, text, and outputs. It is a great way of presenting work to project stakeholders and sharing detailed work with academic audiences. It can also be useful in education, providing a shareable book that students can follow without needing internet access. Using WebAssembly provides a way of integrating interactive code into the book, which can be changed and re-run as often as needed. 
+
+To illustrate, here are some examples of Python code blocks using Pyodide (a WebAssembly implentation of Python for Quarto, using
+[quarto-pyodide](https://quarto.thecoatlessprofessor.com/pyodide/qpyodide-acknowledgements.html) [@balamuta2024quarto]). These code cells use Python, without requiring a download or installation. You can interact with the code, modify it, and run it direclty in the browser. 
+:::
+::::
+
+
+```{pyodide-python}
+x = 1493
+y = 3997 / 39
+
+print(x + y)
+```
+
+Try this one! Feel free to change any of the characters, settings, conflicts or resolutions to create your own random stories.
+
+```{pyodide-python}
+import random
+
+# Define some story elements
+characters = ["a brave knight", "a clever wizard", "a cunning thief", "a noble princess", "a fearless dragon"]
+settings = ["in a dark forest", "in a grand castle", "in a bustling village", "on a high mountain", "in a mystical land"]
+conflicts = ["fought a fearsome beast", "discovered a hidden treasure", "outwitted an evil sorcerer", "saved the kingdom", "found a magical artifact"]
+resolutions = ["and lived happily ever after", "and became a legend", "and made new friends", "and brought peace to the land", "and lived alone with a cat"]
+
+# Function to generate a random story
+def generate_story():
+    character = random.choice(characters)
+    setting = random.choice(settings)
+    conflict = random.choice(conflicts)
+    resolution = random.choice(resolutions)
+
+    story = f"Once upon a time, {character} {setting} {conflict} {resolution}."
+    return story
+
+# Generate and print a random story
+if __name__ == "__main__":
+    print(generate_story())
+
+```
+
+These applications use Pyodide, which creates an interaction between Javascript and Python.
+
+Here is a shortish video that explains in more detail how the technology works. 
+
+{{< video https://www.youtube.com/watch?v=fNv45zvs9pU >}}
+</div>

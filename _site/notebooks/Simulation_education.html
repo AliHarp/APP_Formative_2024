@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alison Harper">
+<meta name="dcterms.date" content="2024-05-20">
+
+<title>APP-WASM-formative - What is WebAssembly?</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../notebooks/images/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">APP-WASM-formative</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Introduction</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-web-assembly-for-simulation-education" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Web Assembly for Simulation Education</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-web-assembly-for-simulation-education">    
+        <li>
+    <a class="dropdown-item" href="../notebooks/Simulation_education.html">
+ <span class="dropdown-text">What is WebAssembly?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/Sim_ed2.html">
+ <span class="dropdown-text">Simulation for education</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks/Reflection.html">
+ <span class="dropdown-text">Reflection</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../summary.html"> 
+<span class="menu-text">Summary</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../references.html"> 
+<span class="menu-text">References</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#discrete-event-simulation-as-a-method" id="toc-discrete-event-simulation-as-a-method" class="nav-link active" data-scroll-target="#discrete-event-simulation-as-a-method"><strong>1. Discrete-event Simulation as a method</strong></a></li>
+  <li><a href="#research-focus" id="toc-research-focus" class="nav-link" data-scroll-target="#research-focus"><strong>2. Research focus</strong></a></li>
+  <li><a href="#summary-of-deploying-models-for-healthcare-research" id="toc-summary-of-deploying-models-for-healthcare-research" class="nav-link" data-scroll-target="#summary-of-deploying-models-for-healthcare-research"><strong>3. Summary of deploying models for healthcare research</strong></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">What is WebAssembly?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alison Harper </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 20, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Teaching-Research Synergy</strong></p>
+<div class="alert alert-block alert-secondary">
+<div class="justify-text">
+<p>The use of WebAssembly has significant implications for the deployment of healthcare simulation models for NHS staff use, to support planning their services. It overcomes many of the issues of other methods of deployment, by increasing accessibility, usability, and data security. It also has the potential to address some of the challenges faced for simulation education, which include usability and democratisation of access. The learnings from use in the healthcare sector are proposed to be transferable to education.</p>
+</div>
+</div>
+<section id="discrete-event-simulation-as-a-method" class="level3">
+<h3 class="anchored" data-anchor-id="discrete-event-simulation-as-a-method"><strong>1. Discrete-event Simulation as a method</strong></h3>
+<div class="justify-text">
+<p>In everyday life we encounter the concept of simulation. Weather apps simulate patterns of rainfall and atmosphere dynamics over the coming hours and days. Simulations help understand how diseases or pollutants spread. Urban planners use simulation to study traffic patterns and plan road layouts, or flood risks to plan new developments.</p>
+<p>Discrete-event simulation (DES) is a type of computer simulation used to model the operation of complex systems, as a sequence of discrete events in time. Events might be arrivals, departures, starting or ending of services, or failures or repairs of resources. Many systems modelled using DES involve queues or delays, so processes are often modelled in terms of a series of queues and servers. As events usually occur at random times, and may have random effects, simulation incorporates elements of probability to reflect this real-life randomness.</p>
+<p>A DES model can be seen as a computer representation of a system. Running it over time replicates the behaviour of the system over time. Simulation is often used where research on the real system is not possible, due to inaccessibility, risks, or costs. Experimentation with the simulation model is used instead of experimenting with the real system.</p>
+</div>
+</section>
+<section id="research-focus" class="level3">
+<h3 class="anchored" data-anchor-id="research-focus"><strong>2. Research focus</strong></h3>
+<section id="reuse-of-simulation-models-in-healthcare" class="level4">
+<h4 class="anchored" data-anchor-id="reuse-of-simulation-models-in-healthcare">2.1 Reuse of simulation models in healthcare</h4>
+<div class="justify-text">
+<p>DES models are widely used for decision-support in healthcare, for example for demand and capacity planning of health services. However, they are time-consuming to develop for both modellers and healthcare stakeholders, and are often treated as disposable artefacts, once results have been analysed and delivered. Additionally, for healthcare M&amp;S researchers, a long-standing challenge is translating model results into real-world practice. While many factors contribute to successful model uptake, the aim is to overcome some of the barriers to model use in healthcare by enabling healthcare decision-makers to access and use the model.</p>
+<p>Across healthcare services, similar problems are seen in similar application areas. Model reuse is seen as a potential solution to reduce duplication of effort and maximise the potential value gained from the model. Model reuse can involve re-developing, modifying, or reparaterising an existing model. Another approach to model reuse is to deploy a simulation model for the same purpose in a single application area, which can be used repeatedly for planning by healthcare staff such as managers, clinicians or analysts.</p>
+<p>A model deployed for reuse by healthcare stakeholders needs to be available and accessible. Purpose built software can make this easy, but may come with prohibitive licensing arrangements and costs. While Python democratises the availability of software, and with appropriate open licensing, allows models to be freely shared and adapted, programming languages such as Python can present accessibility and usability challenges for non-technical users, who may most benefit from their use.</p>
+</div>
+</section>
+<section id="simulation-model-deployment-options" class="level4">
+<h4 class="anchored" data-anchor-id="simulation-model-deployment-options">2.2 Simulation model deployment options</h4>
+<div class="justify-text">
+<p>Model deployment refers to the process of taking a validated DES model and making it available for use in real-world applications. It transitions a model from a development setting, where it is tested and validated, to an operational setting where it can provide practical value.</p>
+<p>The choice of deployment method should be tailored to fit the specific needs of stakeholders and the user-base within a project, as different methods of deployment come with advantages and disadvantages.</p>
+<p>Using Jupyter, models, including their source code, can be deployed as static files, interactive web pages, or hosted on platforms like GitHub, Binder, or Google Colab. They can also be shared as web apps, with user-friendly interfaces, via free platforms such as Streamlit Community Cloud. While these are convenient ways to share a model, free or limited-capacity platforms restrict the number of processors available, memory, and/or bandwidth. Some, such as ShinyApps, offer monthly paid plans to increase computational resources, which may not be budgeted into a project. In healthcare, a bigger issue is the potential need to use sensitive data or parameters, which may require a private, local instance of a model where model parameters/data are not sent to any remote servers, so server vulnerabilities are mitigated.</p>
+<p>A standard approach is to commit code and virtual environments files to GitHub (or alternative repository) which can then be downloaded and run locally <span class="citation" data-cites="monks2024towards">(<a href="#ref-monks2024towards" role="doc-biblioref">Monks, Harper, and Mustafee 2024</a>)</span>. Using Conda environments allows for a controlled setup that maintains dependencies without complex configurations. For NHS users with limited technical support, this can present barriers. WebAssembly is an alternative approach for local processing which eliminates the need for complex software installation processes. Input files are used locally, and output files and data be safely exported to the users laptop or desktop. Additionally, every user accesses the same software environment directly in their browser, ensuring consistency, reliability, and reproducibility of model results.</p>
+</div>
+</section>
+<section id="models-as-notebooks-jupyter-and-jupyterlite" class="level4">
+<h4 class="anchored" data-anchor-id="models-as-notebooks-jupyter-and-jupyterlite">2.2.1 Models as Notebooks: Jupyter and JupyterLite</h4>
+<div class="justify-text">
+<p>Jupyter Notebooks and Jupyterlab provide a web-based interactive computing platform which allows users to create and share ‘notebooks’, which execute code, equations, visualisations and narrative text in a step-by-step manner. This is particularly beneficial for data analysis, prototyping, and education.</p>
+</div>
+<!-- ![Normal Jupyter](Normal_jupyter2.drawio.png) -->
+<figure class="figure">
+<img src="images/Normal_jupyter2.drawio.png" alt="Jupyter set up" class="figure-img">
+<figcaption>
+Figure 1: Jupyter architecture
+</figcaption>
+</figure>
+<div class="justify-text">
+<p>Using WebAssembly, JupyterLite is a lightweight version of Jupyter that runs entirely in the browser without the need for server-side infrastructure. Jupyter notebooks can be created and run locally without installing anything on their machines. It is fast, portable, and easily deployable, making it ideal for lightweight computing tasks and educational purposes.</p>
+</div>
+<!-- ![JupyterLite](jupyterlite3.drawio.png) -->
+<figure class="figure">
+<img src="images/jupyterlite3.drawio.png" alt="JupyterLite set up" class="figure-img">
+<figcaption>
+Figure 2: JupyterLite architecture
+</figcaption>
+</figure>
+</section>
+<section id="models-with-an-interface-streamlit-and-stlite" class="level4">
+<h4 class="anchored" data-anchor-id="models-with-an-interface-streamlit-and-stlite">2.2.2 Models with an interface: Streamlit and Stlite</h4>
+<div class="justify-text">
+<p>Streamlit is a Python library that allows modellers to quickly create interactive web applications for their DES models, and other data science projects. It simplifies the process of building custom web interfaces by providing easy-to-use widgets and tools for changing simulation parameters and visualising data.</p>
+</div>
+<figure class="figure">
+<img src="images/Streamlit2.drawio.png" alt="Streamlit set up" class="figure-img">
+<figcaption>
+Figure 3: Streamlit architecture
+</figcaption>
+</figure>
+<div class="justify-text">
+<p>Stlite is a WebAssembly implementation of Streamlit, enabling the creation of web applications using Python syntax, but compiled to run in the browser. This allows for building interactive DES models without the need for a server backend. It is fast and flexible, and ideal for lightweight tasks such as enabling NHS stakeholders to access and use a model. It is particularly suitable for rapid prototyping during a project, and for ease-of-use after a project end.</p>
+</div>
+<figure class="figure">
+<img src="images/StLite.drawio2.png" alt="Stlite set up" class="figure-img">
+<figcaption>
+Figure 4: Stlite architecture
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="summary-of-deploying-models-for-healthcare-research" class="level3">
+<h3 class="anchored" data-anchor-id="summary-of-deploying-models-for-healthcare-research"><strong>3. Summary of deploying models for healthcare research</strong></h3>
+<div class="alert alert-block alert-success">
+<div class="justify-text">
+<p>In healthcare, reusable models have the potential to increase the impact of a modelling and simulation study, by making models available for direct use by NHS stakeholders. Attention needs to be given to deploying models that are accessible, usable, and functional in line with the needs of non-technical stakeholders. However, healthcare models also need to focus on security of sensitive data, and WebAssembly of code notebooks or model interfaces addresses this issue with client-side execution.</p>
+</div>
+</div>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-monks2024towards" class="csl-entry" role="listitem">
+Monks, Thomas, Alison Harper, and Navonil Mustafee. 2024. <span>“Towards Sharing Tools and Artefacts for Reusable Simulations in Healthcare.”</span> <em>Journal of Simulation</em>, 1–20.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

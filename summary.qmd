@@ -1,0 +1,55 @@
+# Summary
+
+<div class="justify-text">
+  <div class="alert alert-block alert-info">
+Several of the disadvantages of running simulations on the web can be overcome by running a Python model entirely in the client's web browser using WebAssembly: a compact, binary instruction language that runs with near-native performance. A key distribution is Pyodide: the CPython interpreter compiled to WebAssembly using emscripten. A number of key packages from the python scientific stack have also been compiled to WebAssembly and are included in the distribution e.g. including NumPy, Pandas, and Matplotlib. Pure Python packages, (e.g. simpy or salabim) can also be installed at runtime and run against Pyodide.
+  </div>
+
+Jupyterlite \cite{jupyterlite} is a WebAssembly build of the popular Jupyter IDE and runs in a user's browser. It serves static content and uses either the pyodide or xeus-python kernels to execute Python code. This means it is possible to build interactive webpages on sites such as GitHub pages that contain simulation models in Jupyter notebooks \cite{jupyterlab_jupyterlab_2022}. As JupyterLite serves static content and model computation happens in the client's web browser, authors do not need to rely on limited-capacity or costly hosting sites. In comparison, server-reliant cloud-based services like mybinder.org can be slow to build the environment, especially with infrequent access, and have limited resource allocations. 
+
+In Jupyterlite, notebooks are downloaded to the local machine from a URL, and are stored in the browser's cache. The user can make changes to the model or create new files, and these persist until the browser cache is cleared. 
+
+<hr style="border: none; border-top: 2px solid #333; margin: 20px 0;">
+
+The relative merits are:
+
+*  As all the components are on the client side, once all resources are loaded from web servers the model can run offline.
+*  Model parameters/data are not sent to any remote servers and are only processed locally within users' machines. Without the need to manage servers, the security risks associated with server vulnerabilities are mitigated. Similarly, files can be downloaded and output data can be safely exported locally. 
+*  Without the need for server side computation, there are no costs associated with server maintenance and scaling.
+*  Unlike environments that require building and launching a server, Jupyterlite has no server startup time and launches instantly.
+*  As it runs in the browser, the simulation is accessible on any device without needing specific software installations. This provides an interactive web application with the computational capabilities of Python but no need to install Python or any libraries.
+*  WebAssembly can be potentially suitable for computationally intensive simulations. However, it is limited by the client's machine resources (CPU, memory) and the browser's capabilities.
+*  For M\&S reuse, a link to a JupyterLite model with all notebooks, datasets and libraries configured can make it very easy for users to get started without setup barriers.
+*  Every user accesses the same software environment directly in their browser, ensuring consistency and reliability.
+
+The trade-offs are: 
+
+* JupyterLite kernels (e.g.  
+    Pyodide) include a limited set of Python packages compiled to WebAssembly. This means not all Python libraries are available, and not all (but most) of the features of JupyterLab and Classic Notebooks are supported.
+*  The simulation's performance and capability might be limited by the user's browser and hardware.
+*  JupyterLite, being browser-based, does not support traditional multithreading due to its architecture. 
+*  Although JupyterLite is currently being developed by core Jupyter developers, the project is still unofficial as of the time of writing.
+*  The deployed model in Jupyter notebooks will display a mixture of exposed code, markdown, and outputs such as results, tables, and charts. Changing parameters will require interacting with code directly. The notebooks therefore need to be designed for clarity, interactivity, and aesthetic appeal. Stlite offers a user-friendly alternative, with a web app user interface using Streamlit.
+
+<hr style="border: none; border-top: 2px solid #333; margin: 20px 0;">
+
+  <div class="alert alert-block alert-success">
+**For healthcare** a runnable version of a simulation model can be shared alongside a publication. The code allows others to replicate the simulation results, tables, and charts in a paper and allows others to reuse the model. The model is immediately usable without the need to install Python, the discrete-event simulation package, or any other dependencies. This can either reduce load on online open science compute infrastructure, or doesn't rely on it all. Additionally, users may want to use a version of their own data but due to governance, ethics, or other reason, cannot upload the data to a remote instance of the model. WebAssembly overcomes this issue.
+  </div>
+
+  <div class="alert alert-block alert-success">
+**For education** students can interact with pre-built simulations directly in their web browsers without needing to install any software. This allows them to focus on learning the concepts of simulation rather than dealing with technical setup issues. As JupyterLite runs in a web browser, students can access simulations from any device, including laptops, tablets, and even smartphones. This ensures that all students, regardless of their hardware and technical expertise, have equal access to learning resources. The approach can be easily scaled to accommodate large numbers of students without the need for additional infrastructure.All students access the same software environment, ensuring consistency in the learning experience. This uniformity helps to standardise teaching materials and assessments.
+
+For education, WebAssembly overcomes many hurdles. It allows executable 
+models to be made available with no installation requirements, lowering the 
+barrier to entry. It works on any web browser, making it accessible to a wider 
+range of students, regardless of their operating system. Once loaded, it is 
+available without an internet connection, enabling students to work with the 
+notebooks with limited or no connectivity. It also reduces infrastructure costs,
+and simplifies resource management for educational institutions, as it can be 
+deployed to any number of students without worrying about server capacity or 
+load balancing.  
+  </div>
+</div>
+
+

@@ -1,0 +1,28 @@
+project:
+  type: website
+  preview:
+    browser: true
+
+website:
+  title: "APP-WASM-formative"
+  navbar:
+    logo: "notebooks/images/logo.png"
+    left:
+      - href: index.qmd
+      - text: "Web Assembly for Simulation Education"
+        menu:
+          - notebooks/Simulation_education.ipynb
+          - notebooks/Sim_ed2.ipynb
+          - notebooks/Reflection.md
+      - summary.qmd
+    right:
+      - references.qmd
+ 
+#bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    number-sections: false
+    css: styles.css

@@ -1,0 +1,103 @@
+---
+title: WebAssembly for discrete event simulation
+author: Alison Harper
+date: "05-20-2024"
+format:
+  html:
+    code-fold: false
+jupyter: python3
+execute:
+  enabled: true
+---
+
+## WebAssembly for discrete-event simulation using Python:  
+
+## Teaching-Research Synergy
+
+<div class="alert alert-block alert-success">
+The use of WebAssembly potentially has significant implications for the deployment of healthcare simulation models for NHS staff use, to support planning their services. It overcomes many of the issues of other methods of deployment, by increasing accessibility, usability, and data security. It also has the potential to address some of the challenges faced for simulation education, which include usability and democratisation of access. The learnings from use in the healthcare sector are proposed to be transferable to education. 
+</div>
+
+### __1. Discrete-event Simulation as a method__
+
+In everyday life we encounter the concept of simulation. Weather apps simulate patterns of rainfall and atmosphere dynamics over the coming hours and days. Simulations help understand how diseases or pollutants spread. Urban planners use simulation to study traffic patterns and plan road layouts, or flood risks to plan new developments. 
+
+Discrete-event simulation (DES) is a type of computer simulation used to model the operation of complex systems, as a sequence of discrete events in time. Events might be arrivals, departures, starting or ending of services, or failures or repairs of resources. Many systems modelled using DES involve queues or delays, so processes are often modelled in terms of a series of queues and servers. As events usually occur at random times, and may have random effects, simulation incorporates elements of probability to reflect this real-life randomness.
+
+A DES model can be seen as a computer representation of a system. Running it over time replicates the behaviour of the system over time. Simulation is often used where research on the real system is not possible, due to inaccessibility, risks, or costs. Experimentation with the simulation model is used instead of experimenting with the real system.
+
+### __2. Research focus__  
+#### 2.1 Reuse of simulation models in healthcare  
+
+DES models are widely used for decision-support in healthcare, for example for
+demand and capacity planning of health services. However, they are time-consuming to develop
+for both modellers and healthcare stakeholders, and are often treated as disposable artefacts, once results have been analysed and delivered. Additionally, for healthcare M&S researchers, a long-standing 
+challenge is translating model results into real-world practice. While many factors contribute to successful model uptake, the aim is to
+overcome some of the barriers to model use in healthcare by enabling healthcare decision-makers to access and use the model.
+
+
+Across healthcare services, similar problems are seen in similar 
+application areas.  Model reuse is seen as a potential solution to reduce duplication of effort and maximise the potential value gained 
+from the model. Model reuse can involve re-developing, modifying, or reparaterising an existing model. Another approach to model reuse is to deploy a simulation model for the same purpose in a single application area, which can be
+used repeatedly for planning by healthcare staff such as managers, clinicians or analysts.  
+
+A model deployed for reuse
+by healthcare stakeholders needs to be available and accessible. Purpose built software can make this easy, but may come with prohibitive licensing arrangements and costs. While Python democratises the availability of software, and with appropriate open licensing, allows models to be freely shared and adapted, programming languages such as Python can present 
+accessibility and usability challenges for non-technical users, who may most benefit from their use.
+
+#### 2.2 Simulation model deployment options
+
+Model deployment refers to the process of taking a validated DES model and making it available for use in real-world applications. It transitions a model from a development setting, where it is tested and validated, to an operational setting where it can provide practical value.  
+
+The choice of deployment method should be tailored to fit 
+the specific needs of stakeholders and the
+user-base within a project, as different methods of deployment come with advantages and disadvantages. 
+
+Using Jupyter, models, including their source code, can be deployed as static files, interactive web pages, or hosted on platforms like GitHub, Binder, or Google Colab. They can also be shared as web apps, with user-friendly interfaces, via free platforms such as Streamlit Community Cloud. While these are convenient ways to share a model, free or limited-capacity platforms restrict the number of processors available, memory, and/or bandwidth. Some, such as ShinyApps, offer monthly paid plans to increase computational resources, which may not be budgeted into a project. In healthcare, a bigger issue is the potential need to use sensitive data or parameters, which may require a private, local instance of a model where model parameters/data are not sent to any remote servers, so server vulnerabilities are mitigated. 
+
+A standard approach is to commit code and virtual environments files to GitHub (or alternative repository) which can then be downloaded and run locally. Using Conda environments allows for a controlled setup that maintains dependencies without complex configurations.  For NHS users with limited technical support, this can present barriers. WebAssembly is an alternative approach for local processing which eliminates the need for complex software installation processes. Input files are used locally, and output files and data be safely exported to the users laptop or desktop. Additionally, every user accesses the same software environment directly in their browser, ensuring consistency, reliability, and reproducibility of model results.
+
+#### 2.2.1 Models as Notebooks: Jupyter and JupyterLite
+
+Jupyter Notebooks and Jupyterlab provide a web-based interactive computing platform which allows users to create and share 'notebooks', which execute code, equations, visualisations and narrative text in a step-by-step manner. This is particularly beneficial for data analysis, prototyping, and education. 
+
+![Jupyter architecture](images/Normal_jupyter2.drawio.png)
+
+<!-- <figure>
+    <img src="images/Normal_jupyter2.drawio.png" alt="Jupyter set up">
+    <figcaption> Figure 1: Jupyter architecture</figcaption>
+</figure> -->
+
+Using WebAssembly, JupyterLite is a lightweight version of Jupyter that runs entirely in the browser without the need for server-side infrastructure. Jupyter notebooks can be created and run locally without installing anything on their machines. It is fast, portable, and easily deployable, making it ideal for lightweight computing tasks and educational purposes. 
+
+<!-- ![JupyterLite](jupyterlite3.drawio.png) -->
+
+<figure>
+    <img src="images/jupyterlite3.drawio.png" alt="JupyterLite set up">
+    <figcaption> Figure 2: JupyterLite architecture </figcaption>
+</figure>
+
+#### 2.2.2 Models with an interface: Streamlit and Stlite
+
+Streamlit is a Python library that allows modellers to quickly create interactive web applications for their DES models, and other data science projects. It simplifies the process of building custom web interfaces by providing easy-to-use widgets and tools for changing simulation parameters and visualising data.
+
+
+<figure>
+    <img src="images/Streamlit2.drawio.png" alt="Streamlit set up">
+    <figcaption> Figure 3: Streamlit architecture </figcaption>
+</figure>
+
+Stlite is a WebAssembly implementation of Streamlit, enabling the creation of web applications using Python syntax, but compiled to run in the browser. This allows for building interactive DES models without the need for a server backend. It is fast and flexible, and ideal for lightweight tasks such as enabling NHS stakeholders to access and use a model. It is particularly suitable for rapid prototyping during a project, and for ease-of-use after a project end.
+
+<figure>
+    <img src="images/StLite.drawio2.png" alt="Stlite set up">
+    <figcaption> Figure 4: Stlite architecture </figcaption>
+</figure>
+
+### __3. Summary of deploying models for healthcare research__  
+
+<div class="alert alert-block alert-success">
+In healthcare, reusable models have the potential to increase the impact of a modelling and simulation study, by making models available for direct use by NHS stakeholders. Attention needs to be given to deploying models that are accessible, usable, and functional in line with the needs of non-technical stakeholders. However, healthcare models also need to focus on security of sensitive data, and WebAssembly of code notebooks or model interfaces addresses this issue with client-side execution
+</div> 
+
+
