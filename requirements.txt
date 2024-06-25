@@ -1,0 +1,3 @@
+# Environment file for creation of Quarto site
+# This is seperate from the environment used in reproduction/
+jupyter
