@@ -1,0 +1,16 @@
+/* css styles */
+
+.justify-text {
+	text-align: justify;
+}
+
+.custom-alert {
+  background-color: #f0ad4e; /* Custom background color */
+  color: "#AE7B46"; /* Custom text color */
+  border-radius: 5px; /* Rounded corners */
+  padding: 15px; /* Padding */
+}
+
+.custom-alert .custom-alert-link {
+  color: #7F3013; /* Custom link color */
+}
